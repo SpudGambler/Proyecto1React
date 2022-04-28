@@ -1,12 +1,13 @@
-const { default: mongoose } = require("mongoose");
 const moongose = require("mongoose");
+const express = require("express");
 const app = require("./app");
 const PORT_SERVER = process.env.PORT || 3977;
 const { API_VERSION, IP_SERVER, PORT_DB } = require("./config");
+const routerApi = require("./src/routes");
 
-mongoose.connect(
+moongose.connect(
   `mongodb://${IP_SERVER}:${PORT_DB}/proyect_db`,
-  { useNewUrlParser: true, useUnifiedTopology: true },
+  { useNewUrlParser: true, useUnifiedTopology: true },  
   (err, res) => {
     if (err) {
       throw err;
@@ -21,3 +22,11 @@ mongoose.connect(
     }
   }
 );
+
+app.get("/", (req, res) => {
+  res.send("Primer Proyecto React - Despliegue");
+});
+
+routerApi(app);
+
+app.use(express.json());

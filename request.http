@@ -1,0 +1,32 @@
+###
+POST http://localhost:3977/api/v1/users/user HTTP/1.1
+Content-Type: application/json
+
+{
+  "name": "Jaime",
+  "lastname": "Parra",
+  "email": "jaimea.parral@autonoma.edu.co",
+  "password": "hola1234",
+  "active": true
+}
+
+###
+GET http://localhost:3977/api/v1/users HTTP/1.1
+
+###
+GET http://localhost:3977/api/v1/users/626ad61a3d9e7e355d4d594a HTTP/1.1
+
+###
+PUT http://localhost:3977/api/v1/users/626ad61a3d9e7e355d4d594a HTTP/1.1
+Content-Type: application/json
+
+{
+  "name": "Alonso",
+  "lastname": "Lozada",
+  "email": "jaimmto@gmail.com",
+  "password": "adios98765",
+  "active": false
+}
+
+###
+DELETE  http://localhost:3977/api/v1/users/626ad61a3d9e7e355d4d594a HTTP/1.1

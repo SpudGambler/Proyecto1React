@@ -1,6 +1,7 @@
-const user = {
+const mongoose = require("mongoose");
+const userSchema = mongoose.Schema({
   name: {
-    type: "String",
+    type: String,
     require: true,
     min: 3,
   },
@@ -21,4 +22,6 @@ const user = {
     type: Boolean,
     require: true,
   },
-};
+});
+
+module.exports = mongoose.model("users", userSchema);
