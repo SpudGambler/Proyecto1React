@@ -1,8 +1,18 @@
 const express = require("express");
 const UserModel = require("../models/user.model");
+const UserController = require("../controllers/user");
 const UserService = require("../services/user.service");
 const UserRouter = express.Router();
 const service = new UserService();
+
+UserRouter.post("/signUp", async (req, res, next) => {
+  try {
+    const data = UserController.signUp(req, res);
+    res.status(200).json(data);
+  } catch (error) {
+    next(error);
+  }
+});
 
 UserRouter.get("/", async (req, res, next) => {
   try {
@@ -36,14 +46,15 @@ UserRouter.get("/:userId", async (req, res, next) => {
 UserRouter.put("/:userId", async (req, res, next) => {
   try {
     const { userId } = req.params;
-    const { name, lastname, email, password, active } = req.body;
+    const { name, lastname, email, password, active, role } = req.body;
     const data = await service.editUser(
       userId,
       name,
       lastname,
       email,
       password,
-      active
+      active,
+      role
     );
     res.status(200).json(data);
   } catch (error) {

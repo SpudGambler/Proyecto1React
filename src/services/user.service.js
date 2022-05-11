@@ -22,10 +22,10 @@ class UserService {
     });
   }
 
-  async editUser(userId, name, lastname, email, password, active) {
+  async editUser(userId, name, lastname, email, password, active, role) {
     return UserModel.findByIdAndUpdate(
       { _id: userId },
-      { name, lastname, email, password, active }
+      { name, lastname, email, password, active, role }
     ).then((userFind) => {
       if (!userFind) throw Boom.notFound("No se encontró el usuario");
     });

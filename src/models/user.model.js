@@ -18,6 +18,10 @@ const userSchema = mongoose.Schema({
     type: String,
     require: true,
   },
+  role: {
+    type: String,
+    require: true,
+  },
   active: {
     type: Boolean,
     require: true,
