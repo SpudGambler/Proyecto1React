@@ -1,5 +1,5 @@
 import React from "react";
-import Logo from "../../../assets/img/jpg/logo.jpg";
+import Logo from "../../../assets/img/png/logo.png";
 import { Button } from "antd";
 import {
   MenuUnfoldOutlined,
