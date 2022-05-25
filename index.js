@@ -23,6 +23,4 @@ app.get("/", (req, res) => {
   res.send("Primer Proyecto React - Despliegue");
 });
 
-routerApi(app);
-
 app.use(express.json());

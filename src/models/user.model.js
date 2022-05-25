@@ -3,16 +3,14 @@ const userSchema = mongoose.Schema({
   name: {
     type: String,
     require: true,
-    min: 3,
   },
   lastname: {
     type: String,
     require: true,
-    min: 3,
   },
   email: {
     type: String,
-    require: true,
+    unique: true,
   },
   password: {
     type: String,
@@ -25,6 +23,10 @@ const userSchema = mongoose.Schema({
   active: {
     type: Boolean,
     require: true,
+  },
+  avatar: {
+    type: String,
+    require: false,
   },
 });
 
