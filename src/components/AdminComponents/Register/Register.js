@@ -1,21 +1,20 @@
 import React, { useState } from "react";
-import { Form, Input, Button, Checkbox } from "antd";
+import { Form, Input, Button, Checkbox, notification } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
+import { signUpApi } from "../../../api/user.js";
+import "./Register.scss";
 import {
   emailValidation,
   minLengthValidation,
 } from "../../../validations/FormValidations";
-import "./Register.scss";
 
-export default function Register() {
-  /* Validar valor - estado inicial de los campos input vacíos */
+export default function RegisterForm() {
   const [inputs, setInputs] = useState({
-    person_name: "",
-    lastname: "",
     email: "",
     password: "",
     repeatPassword: "",
     privacyPolicy: false,
+    emailVerified: false,
   });
 
   const [formValid, setFormValid] = useState({
@@ -23,24 +22,24 @@ export default function Register() {
     password: false,
     repeatPassword: false,
     privacyPolicy: false,
+    emailVerified: false,
   });
 
-  const changeForm = (event) => {
-    if (event.target.name === "privacyPolicy") {
+  const changeForm = (e) => {
+    if (e.target.name === "privacyPolicy") {
       setInputs({
         ...inputs,
-        [event.target.name]: event.target.checked,
+        [e.target.name]: e.target.checked,
       });
     } else {
       setInputs({
         ...inputs,
-        [event.target.name]: event.target.value,
+        [e.target.name]: e.target.value,
       });
     }
   };
 
   const inputValidation = (e) => {
-    console.log("Validando");
     const { type, name } = e.target;
 
     if (type === "email") {
@@ -52,13 +51,15 @@ export default function Register() {
     if (type === "checkbox") {
       setFormValid({ ...formValid, [name]: e.target.checked });
     }
+    inputs.emailVerified = formValid.email;
+    console.log(formValid);
   };
 
   const register = async (e) => {
     e.preventDefault();
-    console.log(formValid);
-  };
-  /*const emailVal = inputs.email;
+    console.log("Estoy en register");
+    const emailVal = inputs.email;
+    const emailValidation = inputs.emailVerified;
     const passwordVal = inputs.password;
     const repeatPasswordVal = inputs.repeatPassword;
     const privacyPolicyVal = inputs.privacyPolicy;
@@ -66,27 +67,36 @@ export default function Register() {
       notification["error"]({
         message: "Todos los campos son obligatorios",
       });
+      console.log("Vacíos");
     } else {
-      if (passwordVal !== repeatPasswordVal) {
+      if (!emailValidation) {
         notification["error"]({
-          message: "Las contraseñas tienen que ser iguales.",
+          message: "Introduzca una dirección de correo electrónico válida",
         });
       } else {
-        const result = await signUpApi(inputs);
-        if (!result.ok) {
+        if (passwordVal !== repeatPasswordVal) {
           notification["error"]({
-            message: result.message,
+            message: "Las contraseñas tienen que ser iguales",
           });
+          console.log("Son diferentes");
         } else {
-          notification["success"]({
-            message: result.message,
-          });
-          resetForm();
+          const result = await signUpApi(inputs);
+          console.log(result);
+          if (!result.user_creado) {
+            notification["error"]({
+              message: result.message,
+            });
+          } else {
+            notification["success"]({
+              message: result.message,
+            });
+            resetForm();
+          }
         }
       }
     }
   };
- */
+
   const resetForm = () => {
     const inputs = document.getElementsByTagName("input");
 
@@ -114,27 +124,7 @@ export default function Register() {
     <Form className='register-form' onChange={changeForm}>
       <Form.Item>
         <Input
-          prefix={<UserOutlined className='site-form-item-icon' />}
-          type='text'
-          name='person_name'
-          placeholder='Nombre'
-          className='register-form__input'
-          value={inputs.person_name}
-        />
-      </Form.Item>
-      <Form.Item>
-        <Input
-          prefix={<UserOutlined className='site-form-item-icon' />}
-          type='text'
-          name='lastname'
-          placeholder='Apellido'
-          className='register-form__input'
-          value={inputs.lastname}
-        />
-      </Form.Item>
-      <Form.Item>
-        <Input
-          prefix={<UserOutlined className='site-form-item-icon' />}
+          prefix={<UserOutlined style={{ color: "rgba(0,0,0,.25)" }} />}
           type='email'
           name='email'
           placeholder='Correo electronico'
@@ -145,7 +135,7 @@ export default function Register() {
       </Form.Item>
       <Form.Item>
         <Input
-          prefix={<LockOutlined className='site-form-item-icon' />}
+          prefix={<LockOutlined style={{ color: "rgba(0,0,0,.25)" }} />}
           type='password'
           name='password'
           placeholder='Contraseña'
@@ -156,7 +146,7 @@ export default function Register() {
       </Form.Item>
       <Form.Item>
         <Input
-          prefix={<LockOutlined className='site-form-item-icon' />}
+          prefix={<LockOutlined style={{ color: "rgba(0,0,0,.25)" }} />}
           type='password'
           name='repeatPassword'
           placeholder='Repetir contraseña'
@@ -173,11 +163,9 @@ export default function Register() {
           He leído y acepto la política de privacidad.
         </Checkbox>
       </Form.Item>
-      <Form.Item>
-        <Button htmlType='submit' className='register-form__button'>
-          Crear cuenta
-        </Button>
-      </Form.Item>
+      <Button onClick={register} className='register-form__button'>
+        Crear cuenta
+      </Button>
     </Form>
   );
 }

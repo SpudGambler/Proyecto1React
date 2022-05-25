@@ -1,8 +1,7 @@
+/*Minimo de caracteres permitidos en el campo de contraseña,nombreyapellido*/
 export function minLengthValidation(inputData, minLength) {
   const { value } = inputData;
-
   removeClassErrorSuccess(inputData);
-
   if (value.length >= minLength) {
     inputData.classList.add("success");
     return true;
@@ -13,13 +12,10 @@ export function minLengthValidation(inputData, minLength) {
 }
 
 export function emailValidation(inputData) {
-  // eslint-disable-next-line no-useless-escape
-  const emailValid =
-    /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+  // eslint-disable-next-Line no-useless-escape
+  const emailValid = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(.\w{2,3})+$/;
   const { value } = inputData;
-
   removeClassErrorSuccess(inputData);
-
   const resultValidation = emailValid.test(value);
   if (resultValidation) {
     inputData.classList.add("success");

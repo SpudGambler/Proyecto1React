@@ -8,7 +8,7 @@ import { Button } from "antd";
 import "./LayoutBasic.scss";
 
 export default function LayoutBasic(props) {
-  const [menuCollapsed, setMenuCollapsed] = useState(false);
+  const [menuCollapsed, setMenuCollapsed] = useState(true);
   const { Header, Content, Footer } = Layout;
   const { children } = props;
 
@@ -27,7 +27,7 @@ export default function LayoutBasic(props) {
         <Content className='layout-admin__content'>{children}</Content>
         <Footer className='layout-admin__footer'>
           <Button type='link' onClick={() => console.log("Github")}>
-            <GithubOutlined style={{ fontSize: "17px" }} /> YanethM
+            <GithubOutlined style={{ fontSize: "17px" }} /> SpudGambler
           </Button>
         </Footer>
       </Layout>
